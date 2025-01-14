@@ -1,8 +1,3 @@
-// Dimensions des curseurs et marges + select
-let sliderWidth = 300;
-let sliderHeight = 20;
-let mySelect;
-
 // Liste des paires de concepts
 let concepts = [
     { left: "passive", right: "active" },
@@ -14,10 +9,9 @@ let concepts = [
     { left: "silent", right: "noisy" },
     { left: "harsh", right: "harmonious" }
 ];
-let sliders = [];
 let colors = [];
 
-
+let mySelect;
 
 
 
@@ -37,19 +31,9 @@ async function fetchRandomPalette() {
 
 
 function setup() {
-    createCanvas(window.innerWidth, window.innerHeight);
+    createCanvas(window.innerWidth/2, window.innerHeight);
     background(0);
     textSize(14);
-    let spacing = ((height - concepts.length * sliderHeight) / (concepts.length + 1)) - 7;
-
-    // Initialisation des curseurs
-    for (let i = 0; i < concepts.length; i++) {
-        let y = spacing * (i + 1) + sliderHeight * i;
-        let slider = createSlider(0, 1, 0.5, 0.01);
-        slider.position((width - sliderWidth) / 2 + 300, y - 2);
-        slider.size(sliderWidth);
-        sliders.push(slider);
-    }
 
     // Initialisation du select
     mySelect = createSelect();
@@ -86,9 +70,7 @@ function draw() {
     let sets = colors.length;
     let rectWidth = 600;
     let rectHeight = 600;
-    
     let offsetY = 20;
-    let spacing = ((height - concepts.length * sliderHeight) / (concepts.length + 1)) - 7;
 
     // dessiner les rectangles
     for (let i = 0; i < sets; i++) {
@@ -107,32 +89,9 @@ function draw() {
 
     // Dessin des curseurs et des textes
     for (let i = 0; i < concepts.length; i++) {
-        let y = spacing * (i + 1) + sliderHeight * i;
-        // let slider = sliders[i];
-        // let value = slider.value();
 
-        // Afficher les noms des concepts
-        fill(0);
-        textFont('Arial Black');
-        textAlign(RIGHT, CENTER);
-        text(concepts[i].left, (width - sliderWidth) / 2 + 250, y + sliderHeight / 2);
-        textAlign(LEFT, CENTER);
-        text(concepts[i].right, (width + sliderWidth) / 2 + 360, y + sliderHeight / 2);
-
-        // Afficher les valeurs calculées
-        // textAlign(CENTER, CENTER);
-        // fill(0);
-        // text(`Left: ${nf(1 - value, 1, 2)}, Right: ${nf(value, 1, 2)}`, width / 2, y + sliderHeight / 2 + 20);
     }
 }
-
-
-
-
-
-
-
-
 
 
 
