@@ -105,7 +105,6 @@ function draw() {
         offsetY += 20;
     }
 
-    let spacing = (window.innerHeight - concepts.length * sliderHeight) / (concepts.length + 1);
     // Dessin des curseurs et des textes
     for (let i = 0; i < concepts.length; i++) {
         let y = spacing * (i + 1) + sliderHeight * i;
@@ -158,6 +157,5 @@ function exportCSV() {
 // Bouton d'exportation
 function setupExportButton() {
     let button = createButton('Enregistrer');
-    button.position(1150, 675); 
     button.mousePressed(exportCSV);
 }
