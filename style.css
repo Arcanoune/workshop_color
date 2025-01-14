@@ -1,7 +1,12 @@
-body{
+body {
     margin: 0;
     display: flex;
+    /* justify-content: center; */
     align-items: center;
-    justify-content: center;
-    background-color: lightgray;
+    height: 100vh; 
 }
+
+canvas {
+    margin-left: 50px; 
+}
+

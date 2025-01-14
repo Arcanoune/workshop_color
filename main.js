@@ -1,7 +1,7 @@
 let colors = ["yellow", "blue", "red", "orange"];
 
 function setup() {
-    createCanvas(600, 600);
+    createCanvas(window.innerWidth, window.innerHeight);
     noLoop();
 }
 
