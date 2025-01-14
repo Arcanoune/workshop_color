@@ -23,7 +23,6 @@ let sliders = [];
 
 function setup() {
     createCanvas(window.innerWidth, window.innerHeight);
-    noLoop();
     textSize(14);
 
     // Initialisation des curseurs
