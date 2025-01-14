@@ -23,7 +23,7 @@ let colors = [];
 function setup() {
     createCanvas(window.innerWidth, window.innerHeight);
     textSize(14);
-    let spacing = (height - concepts.length * sliderHeight) / (concepts.length + 1);
+    let spacing = ((height - concepts.length * sliderHeight) / (concepts.length + 1)) - 7;
 
     // Initialisation des curseurs
     for (let i = 0; i < concepts.length; i++) {
@@ -52,6 +52,9 @@ function setup() {
             colors = fetchedColors;
         });
     });
+
+    // afficher bouton d'enregistrement
+    setupExportButton();
     
 }
 
@@ -79,7 +82,7 @@ function draw() {
     let rectWidth = 600;
     let rectHeight = 600;
     let offsetY = 20;
-    let spacing = (height - concepts.length * sliderHeight) / (concepts.length + 1);
+    let spacing = ((height - concepts.length * sliderHeight) / (concepts.length + 1)) - 7;
 
     // dessiner les rectangles
     for (let i = 0; i < sets; i++) {
@@ -89,7 +92,7 @@ function draw() {
         let x = (width - rectWidth) / 4;
         let y = height - rectHeight - offsetY;
 
-        rect(x-400, y-50, rectWidth, rectHeight);
+        rect(x-150, y-50, rectWidth, rectHeight);
         rectWidth -= 100;
         rectHeight -= 100;
         offsetY += 20;
@@ -105,9 +108,9 @@ function draw() {
         fill(0);
         textFont('Arial Black');
         textAlign(RIGHT, CENTER);
-        text(concepts[i].left, (width - sliderWidth) / 2 + 200, y + sliderHeight / 2);
+        text(concepts[i].left, (width - sliderWidth) / 2 + 250, y + sliderHeight / 2);
         textAlign(LEFT, CENTER);
-        text(concepts[i].right, (width + sliderWidth) / 2 + 310, y + sliderHeight / 2);
+        text(concepts[i].right, (width + sliderWidth) / 2 + 360, y + sliderHeight / 2);
 
         // Afficher les valeurs calculées
         // textAlign(CENTER, CENTER);
@@ -131,8 +134,8 @@ function exportCSV() {
 
 
 // Bouton d'exportation
-function keyPressed() {
-    if (key === 'E' || key === 'e') {
-        exportCSV();
-    }
+function setupExportButton() {
+    let button = createButton('Enregistrer');
+    button.position(1150, 675); 
+    button.mousePressed(exportCSV);
 }
