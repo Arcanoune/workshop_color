@@ -36,7 +36,7 @@ function setup() {
     // couleurs random
     async function fetchRandomPalette() {
         const randomColor = Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'); 
-        const modes = ['monochrome', 'analogic', 'complement', 'analogic-complement', 'triad', 'quad'];
+        const modes = ['analogic-complement', 'triad', 'quad'];
         const randomMode = modes[Math.floor(Math.random() * modes.length)]; 
 
         const response = await fetch(`https://www.thecolorapi.com/scheme?hex=${randomColor}&mode=${randomMode}&count=4`);
