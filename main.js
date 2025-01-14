@@ -23,11 +23,6 @@ function draw() {
         rectWidth -= 100;
         rectHeight -= 100;
         offsetY += 20; 
-
-        // textFont('impact');
-        // textAlign(CENTER, CENTER);
-        // text("texte", height/2, width/2);
-        // textSize(128);
     }
 
 }
