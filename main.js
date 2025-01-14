@@ -18,6 +18,7 @@ let concepts = [
 
 // Tableau des curseurs
 let sliders = [];
+let colors = [];
 
 function setup() {
     createCanvas(window.innerWidth, window.innerHeight);
@@ -31,16 +32,8 @@ function setup() {
         slider.size(sliderWidth);
         sliders.push(slider);
     }
-}
 
-
-
-let colors = [];
-
-function setup() {
-    createCanvas(600, 600);
-    background(240);
-
+    // couleurs random
     async function fetchRandomPalette() {
         const randomColor = Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'); 
         const modes = ['monochrome', 'analogic', 'complement', 'analogic-complement', 'triad', 'quad'];
@@ -57,7 +50,9 @@ function setup() {
     });
 }
 
-function drawRectangles() {
+
+function draw() {
+
     let sets = colors.length;
     let rectWidth = 600;
     let rectHeight = 600;
@@ -75,9 +70,6 @@ function drawRectangles() {
         rectHeight -= 100;
         offsetY += 20;
     }
-}
-
-function draw() {
 
     // Dessiner chaque curseur et ses concepts
     for (let i = 0; i < concepts.length; i++) {
