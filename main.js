@@ -58,13 +58,6 @@ function setup() {
     });
 }
 
-async function fetchColorPalette(seedColor, count = 4) {
-    const mode = 'analogic';
-    const response = await fetch(`https://www.thecolorapi.com/scheme?hex=${seedColor}&mode=${mode}&count=${count}`);
-    const data = await response.json();
-    return data.colors.map(color => color.hex.value);
-}
-
 function drawRectangles() {
     let sets = colors.length;
     let rectWidth = 600;
