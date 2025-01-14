@@ -1,6 +1,7 @@
-// Dimensions des curseurs et marges
+// Dimensions des curseurs et marges + select
 let sliderWidth = 300;
 let sliderHeight = 20;
+let mySelect;
 
 
 // Liste des paires de concepts
@@ -14,10 +15,9 @@ let concepts = [
     { left: "silent", right: "noisy" },
     { left: "harsh", right: "harmonious" }
 ];
-
-// Tableau des curseurs
 let sliders = [];
 let colors = [];
+
 
 
 function setup() {
@@ -34,27 +34,47 @@ function setup() {
         sliders.push(slider);
     }
 
-    // couleurs random
-    async function fetchRandomPalette() {
-        const randomColor = Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
-        const modes = ['monochrome', 'analogic', 'complement', 'analogic-complement', 'triad', 'quad'];
-        const randomMode = modes[Math.floor(Math.random() * modes.length)];
 
-        const response = await fetch(`https://www.thecolorapi.com/scheme?hex=${randomColor}&mode=${randomMode}&count=4`);
-        const data = await response.json();
-        return data.colors.map(color => color.hex.value);
-    }
-
-    fetchRandomPalette().then(fetchedColors => {
+    // Initialisation du select
+    mySelect = createSelect();
+    mySelect.position(250, 250);
+    mySelect.option('3');
+    mySelect.option('4');
+    mySelect.option('5');
+    mySelect.option('6');
+    
+    fetchRandomPalette(3).then(fetchedColors => {
         colors = fetchedColors;
-        drawRectangles();
     });
+
+    mySelect.changed(() => {
+        fetchRandomPalette().then(fetchedColors => {
+            colors = fetchedColors;
+        });
+    });
+    
+}
+
+
+
+// couleurs random
+async function fetchRandomPalette() {
+    const randomColor = Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+    const modes = ['analogic-complement', 'triad', 'quad'];
+    const randomMode = modes[Math.floor(Math.random() * modes.length)];
+    const length = parseInt(mySelect.value() || '3');
+    console.log(length);
+
+    const response = await fetch(`https://www.thecolorapi.com/scheme?hex=${randomColor}&mode=${randomMode}&count=${length}`);
+    const data = await response.json();
+    return data.colors.map(color => color.hex.value);
 }
 
 
 
 
 function draw() {
+    // Dessin des rectangles et autres éléments
     let sets = colors.length;
     let rectWidth = 600;
     let rectHeight = 600;
@@ -66,7 +86,7 @@ function draw() {
         fill(colors[i]);
         noStroke();
 
-        let x = (width - rectWidth) / 2;
+        let x = (width - rectWidth) / 4;
         let y = height - rectHeight - offsetY;
 
         rect(x-400, y-50, rectWidth, rectHeight);
@@ -75,7 +95,7 @@ function draw() {
         offsetY += 20;
     }
 
-    // Dessiner chaque curseur et ses concepts
+    // Dessin des curseurs et des textes
     for (let i = 0; i < concepts.length; i++) {
         let y = spacing * (i + 1) + sliderHeight * i;
         // let slider = sliders[i];
@@ -95,8 +115,6 @@ function draw() {
         // text(`Left: ${nf(1 - value, 1, 2)}, Right: ${nf(value, 1, 2)}`, width / 2, y + sliderHeight / 2 + 20);
     }
 }
-
-
 
 
 // Fonction d’exportation des valeurs et des couleurs
