@@ -10,7 +10,6 @@ let concepts = [
     { left: "harsh", right: "harmonious" }
 ];
 let colors = [];
-
 let mySelect;
 
 
@@ -31,21 +30,22 @@ async function fetchRandomPalette() {
 
 
 function setup() {
-    createCanvas(window.innerWidth/2, window.innerHeight);
+    // createCanvas(window.innerWidth / 2, window.innerHeight);
+    const canvasParent = document.getElementById('canvas-container');
+    const canvas = createCanvas(window.innerWidth/2, window.innerHeight);
+    canvas.parent(canvasParent);
     background(0);
     textSize(14);
 
     // Initialisation du select
     mySelect = createSelect();
     mySelect.position(250, 250);
-    mySelect.option('3');
     mySelect.option('4');
     mySelect.option('5');
     mySelect.option('6');
-    mySelect.selected('3');
+    mySelect.selected('4');
 
-
-    fetchRandomPalette(3).then(fetchedColors => {
+    fetchRandomPalette(4).then(fetchedColors => {
         colors = fetchedColors;
     });
 
@@ -57,11 +57,35 @@ function setup() {
 
     // afficher bouton d'enregistrement
     setupExportButton();
-    
+    // Création des sliders
+    createSliders();
 }
 
 
 
+function createSliders() {
+    const container = document.getElementById("range-container");
+    for (let i = 0; i < concepts.length; i++) {
+        const div = document.createElement("div");
+        div.classList.add("range");
+
+        const input = document.createElement("input");
+        input.type = "range";
+        input.id = `range-${i}`;
+        input.name = "range";
+        input.min = "0";
+        input.max = "10";
+        input.range = "1";
+
+        const label = document.createElement("label");
+        label.htmlFor = `range-${i}`;
+        label.textContent = `Range for ${concepts[i].left} - ${concepts[i].right}`;
+
+        div.appendChild(input);
+        div.appendChild(label);
+        container.appendChild(div);
+    }
+}
 
 
 
@@ -81,15 +105,10 @@ function draw() {
         let y = window.innerHeight - rectHeight - offsetY;
         rect(x, y, rectWidth, rectHeight);
 
-        rect(x-150, y-50, rectWidth, rectHeight);
+        rect(x - 150, y - 50, rectWidth, rectHeight);
         rectWidth -= 100;
         rectHeight -= 100;
         offsetY += 20;
-    }
-
-    // Dessin des curseurs et des textes
-    for (let i = 0; i < concepts.length; i++) {
-
     }
 }
 
