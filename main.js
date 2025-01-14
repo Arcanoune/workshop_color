@@ -1,5 +1,3 @@
-let colors = ["yellow", "blue", "red", "orange"];
-
 // Dimensions des curseurs et marges
 let sliderWidth = 300;
 let sliderHeight = 20;
@@ -35,13 +33,35 @@ function setup() {
     }
 }
 
-function draw() {
-    let sets = 4;
+
+
+let colors = [];
+
+function setup() {
+    createCanvas(600, 600);
+    background(240);
+
+    async function fetchRandomPalette() {
+        const randomColor = Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'); 
+        const modes = ['monochrome', 'analogic', 'complement', 'analogic-complement', 'triad', 'quad'];
+        const randomMode = modes[Math.floor(Math.random() * modes.length)]; 
+
+        const response = await fetch(`https://www.thecolorapi.com/scheme?hex=${randomColor}&mode=${randomMode}&count=4`);
+        const data = await response.json();
+        return data.colors.map(color => color.hex.value); 
+    }
+
+    fetchRandomPalette().then(fetchedColors => {
+        colors = fetchedColors; 
+        drawRectangles(); 
+    });
+}
+
+function drawRectangles() {
+    let sets = colors.length;
     let rectWidth = 600;
     let rectHeight = 600;
     let offsetY = 20;
-    background(240);
-
 
     for (let i = 0; i < sets; i++) {
         fill(colors[i]);
@@ -54,13 +74,10 @@ function draw() {
         rectWidth -= 100;
         rectHeight -= 100;
         offsetY += 20;
-
-        // textFont('impact');
-        // textAlign(CENTER, CENTER);
-        // text("texte", height/2, width/2);
-        // textSize(128);
     }
+}
 
+function draw() {
 
     // Dessiner chaque curseur et ses concepts
     for (let i = 0; i < concepts.length; i++) {
@@ -79,7 +96,6 @@ function draw() {
         fill(0);
         text(`Left: ${nf(1 - value, 1, 2)}, Right: ${nf(value, 1, 2)}`, width / 2, y + sliderHeight / 2 + 20);
     }
-
 }
 
 // Fonction d’exportation des valeurs et des couleurs
