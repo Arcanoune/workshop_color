@@ -3,11 +3,12 @@ body {
     display: flex;
     /* justify-content: center; */
     align-items: center;
-    height: 100vh; 
+    /* height: 100vh; */
 }
 
-canvas {
-    margin-left: 50px; 
+main{
+    overflow: hidden;
+    height: 100vh;
 }
 
 input {

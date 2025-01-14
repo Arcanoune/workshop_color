@@ -3,7 +3,6 @@ let sliderWidth = 300;
 let sliderHeight = 20;
 let mySelect;
 
-
 // Liste des paires de concepts
 let concepts = [
     { left: "passive", right: "active" },
@@ -20,10 +19,28 @@ let colors = [];
 
 
 
+
+
+
+// couleurs random
+async function fetchRandomPalette() {
+    const randomColor = Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+    const modes = ['analogic-complement', 'triad', 'quad'];
+    const randomMode = modes[Math.floor(Math.random() * modes.length)];
+    const length = mySelect.selected();
+    console.log(length);
+
+    const response = await fetch(`https://www.thecolorapi.com/scheme?hex=${randomColor}&mode=${randomMode}&count=${length}`);
+    const data = await response.json();
+    return data.colors.map(color => color.hex.value);
+}
+
+
 function setup() {
     createCanvas(window.innerWidth, window.innerHeight);
+    background(0);
     textSize(14);
-    let spacing = (height - concepts.length * sliderHeight) / (concepts.length + 1);
+    let spacing = (window.innerHeight - concepts.length * sliderHeight) / (concepts.length + 1);
 
     // Initialisation des curseurs
     for (let i = 0; i < concepts.length; i++) {
@@ -34,7 +51,6 @@ function setup() {
         sliders.push(slider);
     }
 
-
     // Initialisation du select
     mySelect = createSelect();
     mySelect.position(250, 250);
@@ -42,7 +58,9 @@ function setup() {
     mySelect.option('4');
     mySelect.option('5');
     mySelect.option('6');
-    
+    mySelect.selected('3');
+
+
     fetchRandomPalette(3).then(fetchedColors => {
         colors = fetchedColors;
     });
@@ -52,23 +70,9 @@ function setup() {
             colors = fetchedColors;
         });
     });
-    
 }
 
 
-
-// couleurs random
-async function fetchRandomPalette() {
-    const randomColor = Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
-    const modes = ['analogic-complement', 'triad', 'quad'];
-    const randomMode = modes[Math.floor(Math.random() * modes.length)];
-    const length = parseInt(mySelect.value() || '3');
-    console.log(length);
-
-    const response = await fetch(`https://www.thecolorapi.com/scheme?hex=${randomColor}&mode=${randomMode}&count=${length}`);
-    const data = await response.json();
-    return data.colors.map(color => color.hex.value);
-}
 
 
 
@@ -78,8 +82,8 @@ function draw() {
     let sets = colors.length;
     let rectWidth = 600;
     let rectHeight = 600;
+    
     let offsetY = 20;
-    let spacing = (height - concepts.length * sliderHeight) / (concepts.length + 1);
 
     // dessiner les rectangles
     for (let i = 0; i < sets; i++) {
@@ -87,14 +91,15 @@ function draw() {
         noStroke();
 
         let x = (width - rectWidth) / 4;
-        let y = height - rectHeight - offsetY;
+        let y = window.innerHeight - rectHeight - offsetY;
+        rect(x, y, rectWidth, rectHeight);
 
-        rect(x-400, y-50, rectWidth, rectHeight);
         rectWidth -= 100;
         rectHeight -= 100;
         offsetY += 20;
     }
 
+    let spacing = (window.innerHeight - concepts.length * sliderHeight) / (concepts.length + 1);
     // Dessin des curseurs et des textes
     for (let i = 0; i < concepts.length; i++) {
         let y = spacing * (i + 1) + sliderHeight * i;
@@ -117,6 +122,22 @@ function draw() {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Fonction d’exportation des valeurs et des couleurs
 function exportCSV() {
     let csv = "Concept,Value\n";
@@ -127,8 +148,6 @@ function exportCSV() {
     });
     saveStrings([csv], "concept_values.csv");
 }
-
-
 
 // Bouton d'exportation
 function keyPressed() {
