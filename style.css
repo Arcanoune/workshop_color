@@ -77,7 +77,7 @@ section {
 
 #app {
     display: flex;
-    background: #f4f4f4;
+    background: #ffffff;
     width: 100%;
     height: 100%;
     position: relative;
@@ -125,10 +125,12 @@ input {
     background-color: white;
     width: 50%;
     height: 100%;
-    gap: 20px;
+    gap: 40px;
     text-align: center;
     justify-content: center;
     align-items: center;
+    padding-right: 30px;
+    margin-top: 2%;
 }
 
 .range {
@@ -143,15 +145,16 @@ input {
     justify-content: space-between;
     /* Mots de chaque côté du curseur */
     width: 100%;
-    font-size: 14px;
+    font-family: Verdana ;
+    font-size: 16px;
+    margin-bottom: 15px;
 }
 
 .range input {
     margin: 10px 0;
     /* Espace autour du curseur */
-    width: 80%;
     /* Ajustement de la taille */
-    width: 200px;
+    width: 280px;
 }
 
 
@@ -166,25 +169,30 @@ select {
 }
 
 
+h2 {
+    font-size: 18px;
+    font-family: Verdana;
+}
 
 
 button {
     width: 150px;
     height: 20px;
     padding: 10px 20px 30px 20px;
-    border: 3px solid #2F2A85;
+    border: 3px solid #000000;
     border-radius: 5px;
-    background-color: #ECECF9;
-    color: #2F2A85;
-    font-family: 'Lucida Sans';
+    background-color: #cfcfcf;
+    color: #000000;
+    font-family: 'verdana';
     font-size: 16px;
     transition: background-color 0.2s, color 0.2s;
-    text-align: center;
+    margin-bottom: 25%;
+    margin-left: 25%;
 }
 
 button:hover {
     cursor: pointer;
-    background-color: #2F2A85;
+    background-color: #000000;
     color: white;
 }
 

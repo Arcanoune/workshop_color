@@ -55,10 +55,11 @@ function MainSketch(p) {
         //     });
         // });
 
-        // afficher bouton d'enregistrement
-        setupExportButton();
+        
         // Création des sliders
         createSliders();
+        // afficher bouton d'enregistrement
+        setupExportButton();
     }
 
 
