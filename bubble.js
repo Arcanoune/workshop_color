@@ -1,59 +1,68 @@
-let bubbles = [];
+let bubbles = []; // Tableau pour stocker les bulles
 
-function setup() {
-    const canvasParent = document.getElementById('bubble-container');
-    canvasParent.style.display = "block"; 
-    const canvas = createCanvas(window.innerWidth, window.innerHeight);
-    canvas.parent(canvasParent);
-    noStroke();
+function BubbleSketch(p) {
+    p.setup = function setup() {
+        p.createCanvas(window.innerWidth, window.innerHeight, document.getElementById('bubble-canvas'));
+        p.noStroke();
 
-    for (let i = 0; i < 20; i++) {
-        let x = random(width);
-        let y = random(height);
-        let radius = random(20, 60);
-        let color = random(colors);
-        let speedX = random(-1, 1);
-        let speedY = random(-1, 1);
-        bubbles.push(new Bubble(x, y, radius, color, speedX, speedY));
-    }
-}
+        const interval = setInterval(() => {
+            if (colors.length > 0) {
+                clearInterval(interval);
+                for (let i = 0; i < 50; i++) {
+                    let x = p.random(p.width);
+                    let y = p.random(p.height);
+                    let radius = 250; // Taille des bulles
+                    let color = p.random(colors);
 
+                    let angle = p.random(p.TWO_PI); // Angle de direction aléatoire
+                    let speed = 1; // Vitesse constante
+                    let speedX = speed * Math.cos(angle);
+                    let speedY = speed * Math.sin(angle);
 
-function draw() {
-    background(30);
-    for (let bubble of bubbles) {
-        bubble.move();
-        bubble.display();
-    }
-}
+                    bubbles.push(new Bubble(x, y, radius, color, speedX, speedY));
+                }
+            }
+        }, 100);
+    };
 
-class Bubble {
-    constructor(x, y, radius, color, speedX, speedY) {
-        this.x = x;
-        this.y = y;
-        this.radius = radius;
-        this.color = color;
-        this.speedX = speedX;
-        this.speedY = speedY;
-    }
+    p.draw = function draw() {
+        p.background(255);
 
-    move() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        if (this.x - this.radius < 0 || this.x + this.radius > width) this.speedX *= -1;
-        if (this.y - this.radius < 0 || this.y + this.radius > height) this.speedY *= -1;
-    }
-
-    display() {
-        // Vérification simple si la couleur est valide (hexadecimal)
-        if (/^#[0-9A-F]{6}$/i.test(this.color)) {
-            fill(this.color);
-        } else {
-            fill("#FFFFFF");  // Blanc par défaut si la couleur est invalide
+        for (let bubble of bubbles) {
+            bubble.move();
+            bubble.display();
         }
-        ellipse(this.x, this.y, this.radius * 2);
+    };
+
+    class Bubble {
+        constructor(x, y, radius, color, speedX, speedY) {
+            this.x = x;
+            this.y = y;
+            this.radius = radius;
+            this.color = color;
+            this.speedX = speedX;
+            this.speedY = speedY;
+        }
+
+        move() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+
+            // Rebondissement sur les bords
+            if (this.x - this.radius < 0 || this.x + this.radius > p.width) this.speedX *= -1;
+            if (this.y - this.radius < 0 || this.y + this.radius > p.height) this.speedY *= -1;
+        }
+
+        display() {
+            p.fill(this.color || "#FFFFFF");
+            p.drawingContext.shadowBlur = 20; // Intensité du flou
+            p.drawingContext.shadowColor = p.color(this.color || "#FFFFFF"); // Couleur de l'ombre
+            p.ellipse(this.x, this.y, this.radius * 2);
+        }
     }
 }
+
+new p5(BubbleSketch);
 
 
 function windowResized() {

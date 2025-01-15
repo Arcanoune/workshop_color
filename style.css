@@ -1,4 +1,5 @@
-body, html {
+body,
+html {
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -15,7 +16,7 @@ section {
     justify-content: center;
     align-items: center;
     margin: 0;
-    padding: 0; 
+    padding: 0;
 }
 
 
@@ -24,6 +25,7 @@ section {
     scroll-snap-type: y mandatory;
     overflow-y: scroll;
     height: 100%;
+    overflow-x: hidden;
 }
 
 
@@ -44,7 +46,7 @@ section {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; 
+    z-index: -1;
 }
 
 #text-container {
@@ -52,22 +54,46 @@ section {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: green;
+    color: black;
     text-align: center;
-    z-index: 1; 
+    z-index: 1;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 2rem 6rem;
 }
 
+#text-container h1 {
+    font-size: 3rem;
+    font-family: Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif;
+    font-weight: bold;
+    margin: 0;
+}
 
+#text-container p {
+    font-size: 1rem;
+    font-family: Apple Chancery, cursive;
+    margin: 0;
+}
 
 #app {
     display: flex;
     background: #f4f4f4;
     width: 100%;
     height: 100%;
-    position:relative;
+    position: relative;
 }
 
+#app select {
+    display: block; /* Visible uniquement dans #app */
+}
+
+#home select {
+    display: none; /* Caché dans #home */
+}
+
+
 #canvas-container {
+    position: relative;
     flex: 1;
     display: flex;
     justify-content: center;
@@ -76,10 +102,15 @@ section {
 }
 
 
+#main-canvas {
+    z-index: 0;
+}
+
+
 
 #range-container {
     flex: 1;
-    background-color: green;
+    background-color: white;
     width: 50%;
     height: 100%;
     display: flex;
@@ -99,6 +130,16 @@ input {
 }
 
 
+select {
+    width: 100px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    z-index: 10;
+}
+
 
 
 
@@ -114,13 +155,53 @@ button {
     font-size: 16px;
     transition: background-color 0.2s, color 0.2s;
     text-align: center;
-    position: absolute;
-    bottom: 100px;
-    right: 100px;
 }
 
 button:hover {
     cursor: pointer;
     background-color: #2F2A85;
     color: white;
+}
+
+
+
+
+
+
+
+
+
+
+/* Conteneur des icônes */
+.icon-container {
+    margin-top: 10px;
+}
+
+/* Icône du bas (plus grande) */
+.icon-container {
+    transform: rotate(90deg);
+    /* Rotation de l'icône vers le bas */
+    animation: bounce 1.5s ease-in-out infinite;
+    font-size: 24px;
+    /* Taille plus grande */
+}
+
+/* Animation de descente/remontée */
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(90deg);
+        /* Position initiale */
+    }
+
+    40% {
+        transform: translateY(10px) rotate(90deg);
+        /* Descente */
+    }
+
+    60% {
+        transform: translateY(0) rotate(90deg);
+        /* Remontée */
+    }
 }

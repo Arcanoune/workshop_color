@@ -10,7 +10,7 @@ let concepts = [
     { left: "harsh", right: "harmonious" }
 ];
 let colors = [];
-let mySelect;
+// let mySelect;
 
 
 
@@ -20,101 +20,111 @@ async function fetchRandomPalette() {
     const randomColor = Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
     const modes = ['analogic-complement', 'triad', 'quad'];
     const randomMode = modes[Math.floor(Math.random() * modes.length)];
-    const length = mySelect.selected();
-    console.log(length);
+    // const length = mySelect.selected();
+    // console.log(length);
 
-    const response = await fetch(`https://www.thecolorapi.com/scheme?hex=${randomColor}&mode=${randomMode}&count=${length}`);
+    const response = await fetch(`https://www.thecolorapi.com/scheme?hex=${randomColor}&mode=${randomMode}&count=4`);
     const data = await response.json();
     return data.colors.map(color => color.hex.value);
 }
 
 
-function setup() {
-    // createCanvas(window.innerWidth / 2, window.innerHeight);
-    const canvasParent = document.getElementById('canvas-container');
-    const canvas = createCanvas(window.innerWidth/2, window.innerHeight);
-    canvas.parent(canvasParent);
-    background(0);
-    textSize(14);
+function MainSketch(p) {
 
-    // Initialisation du select
-    mySelect = createSelect();
-    mySelect.position(250, 250);
-    mySelect.option('4');
-    mySelect.option('5');
-    mySelect.option('6');
-    mySelect.selected('4');
+    p.setup = function setup() {
+        // createCanvas(window.innerWidth / 2, window.innerHeight);
+        p.createCanvas(window.innerWidth / 2, window.innerHeight, document.getElementById("main-canvas"));
+        p.background(255);
+        p.textSize(14);
 
-    fetchRandomPalette(4).then(fetchedColors => {
-        colors = fetchedColors;
-    });
+        // // Initialisation du select
+        // mySelect = p.createSelect();
+        // mySelect.position(p.width / 2 - 50, 30); // Centré horizontalement et en haut
+        // mySelect.option('4');
+        // mySelect.option('5');
+        // mySelect.option('6');
+        // mySelect.selected('4');
 
-    mySelect.changed(() => {
-        fetchRandomPalette().then(fetchedColors => {
+        fetchRandomPalette(4).then(fetchedColors => {
             colors = fetchedColors;
         });
-    });
 
-    // afficher bouton d'enregistrement
-    setupExportButton();
-    // Création des sliders
-    createSliders();
-}
+        // mySelect.changed(() => {
+        //     fetchRandomPalette().then(fetchedColors => {
+        //         colors = fetchedColors;
+        //     });
+        // });
+
+        // afficher bouton d'enregistrement
+        setupExportButton();
+        // Création des sliders
+        createSliders();
+    }
 
 
 
-function createSliders() {
-    const container = document.getElementById("range-container");
-    for (let i = 0; i < concepts.length; i++) {
-        const div = document.createElement("div");
-        div.classList.add("range");
+    function createSliders() {
+        const container = document.getElementById("range-container");
+        for (let i = 0; i < concepts.length; i++) {
+            const div = document.createElement("div");
+            div.classList.add("range");
 
-        const input = document.createElement("input");
-        input.type = "range";
-        input.id = `range-${i}`;
-        input.name = "range";
-        input.min = "0";
-        input.max = "10";
-        input.range = "1";
+            const input = document.createElement("input");
+            input.type = "range";
+            input.id = `range-${i}`;
+            input.name = "range";
+            input.min = "0";
+            input.max = "10";
+            input.range = "1";
 
-        const label = document.createElement("label");
-        label.htmlFor = `range-${i}`;
-        label.textContent = `Range for ${concepts[i].left} - ${concepts[i].right}`;
+            const label = document.createElement("label");
+            label.htmlFor = `range-${i}`;
+            label.textContent = `Range for ${concepts[i].left} - ${concepts[i].right}`;
 
-        div.appendChild(input);
-        div.appendChild(label);
-        container.appendChild(div);
+            div.appendChild(input);
+            div.appendChild(label);
+            container.appendChild(div);
+        }
+    }
+
+
+    function setupExportButton() {
+        const container = document.getElementById("range-container");
+        let button = p.createButton('Enregistrer');
+        button.mousePressed(exportCSV);
+        container.appendChild(button.elt); 
+    }
+
+
+
+
+
+    p.draw = function draw() {
+        // Dessin des rectangles et autres éléments
+        let sets = colors.length;
+        let rectWidth = 500;
+        let rectHeight = 500;
+        let offsetY = 20;
+
+        // dessiner les rectangles
+        for (let i = 0; i < sets; i++) {
+            p.fill(colors[i]);
+
+            p.noStroke();
+
+            let x = (p.width - rectWidth) / 4;
+            let y = window.innerHeight - rectHeight - offsetY;
+            // p.rect(x, y, rectWidth, rectHeight);
+
+            p.rect(x, y, rectWidth, rectHeight);
+            rectWidth -= 100;
+            rectHeight -= 100;
+            offsetY += 20;
+        }
     }
 }
 
-
-
-function draw() {
-    // Dessin des rectangles et autres éléments
-    let sets = colors.length;
-    let rectWidth = 600;
-    let rectHeight = 600;
-    let offsetY = 20;
-
-    // dessiner les rectangles
-    for (let i = 0; i < sets; i++) {
-        fill(colors[i]);
-        noStroke();
-
-        let x = (width - rectWidth) / 4;
-        let y = window.innerHeight - rectHeight - offsetY;
-        rect(x, y, rectWidth, rectHeight);
-
-        rect(x - 150, y - 50, rectWidth, rectHeight);
-        rectWidth -= 100;
-        rectHeight -= 100;
-        offsetY += 20;
-    }
-}
-
-
-
-
+new p5(MainSketch);
 
 
 
@@ -132,8 +142,3 @@ function exportCSV() {
     saveStrings([csv], "concept_values.csv");
 }
 
-// Bouton d'exportation
-function setupExportButton() {
-    let button = createButton('Enregistrer');
-    button.mousePressed(exportCSV);
-}

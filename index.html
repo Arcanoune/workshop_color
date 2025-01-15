@@ -6,31 +6,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>work</title>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.11.2/lib/p5.min.js"> </script>
-    <script src="main.js"> </script> 
-    <!-- <script src="bubble.js"> </script> -->
+    <script src="main.js"> </script>
+
+    <script src="bubble.js"> </script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
+
 <body>
-
-    <body>
-        <div id="main">
-            <section id="home">
-                <div id="bubble-container"></div> 
-                <div id="text-container">
-                    <h1>Bienvenue</h1>
-                    <p>Faites défiler pour continuer</p>
+    <div id="main">
+        <section id="home">
+            <div id="bubble-container"><canvas id="bubble-canvas"></canvas></div>
+            <div id="text-container">
+                <h1>Bienvenue</h1>
+                <p>Faites défiler pour continuer</p>
+                <div class="icon-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                        class="bi bi-chevron-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
+                    </svg>
                 </div>
-            </section>
 
-            <section id="app">
-                <div id="canvas-container"></div>
-                <div id="range-container"></div>
-            </section>
-        </div>
-    </body>
-
-
+            </div>
+        </section>
+        
+        <section id="app">
+            <div id="canvas-container"><canvas id="main-canvas"></canvas></div>
+            <div id="range-container"></div>
+        </section>
+    </div>
 </body>
+
+
 
 </html>
