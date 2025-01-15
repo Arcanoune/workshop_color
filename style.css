@@ -84,11 +84,13 @@ section {
 }
 
 #app select {
-    display: block; /* Visible uniquement dans #app */
+    display: block;
+    /* Visible uniquement dans #app */
 }
 
 #home select {
-    display: none; /* Caché dans #home */
+    display: none;
+    /* Caché dans #home */
 }
 
 
@@ -108,25 +110,48 @@ section {
 
 
 
-#range-container {
-    flex: 1;
-    background-color: white;
-    width: 50%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
+
 
 input {
     accent-color: black;
+}
+
+
+
+
+#range-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: white;
+    width: 50%;
+    height: 100%;
+    gap: 20px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .range {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+}
+
+.range label {
+    display: flex;
+    justify-content: space-between;
+    /* Mots de chaque côté du curseur */
+    width: 100%;
+    font-size: 14px;
+}
+
+.range input {
+    margin: 10px 0;
+    /* Espace autour du curseur */
+    width: 80%;
+    /* Ajustement de la taille */
+    width: 200px;
 }
 
 

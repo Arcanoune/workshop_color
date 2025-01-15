@@ -65,6 +65,12 @@ function MainSketch(p) {
 
     function createSliders() {
         const container = document.getElementById("range-container");
+
+        // Ajouter un titre global
+        const title = document.createElement("h2");
+        title.textContent = "Ajustez les curseurs :";
+        container.appendChild(title);
+
         for (let i = 0; i < concepts.length; i++) {
             const div = document.createElement("div");
             div.classList.add("range");
@@ -75,24 +81,26 @@ function MainSketch(p) {
             input.name = "range";
             input.min = "0";
             input.max = "10";
-            input.range = "1";
+            input.step = "1";
+            input.value = "5";
 
             const label = document.createElement("label");
             label.htmlFor = `range-${i}`;
-            label.textContent = `Range for ${concepts[i].left} - ${concepts[i].right}`;
+            label.innerHTML = `<span>${concepts[i].left}</span><span>${concepts[i].right}</span>`; // Mots de chaque côté
 
-            div.appendChild(input);
             div.appendChild(label);
+            div.appendChild(input);
             container.appendChild(div);
         }
     }
+
 
 
     function setupExportButton() {
         const container = document.getElementById("range-container");
         let button = p.createButton('Enregistrer');
         button.mousePressed(exportCSV);
-        container.appendChild(button.elt); 
+        container.appendChild(button.elt);
     }
 
 
@@ -102,8 +110,8 @@ function MainSketch(p) {
     p.draw = function draw() {
         // Dessin des rectangles et autres éléments
         let sets = colors.length;
-        let rectWidth = 500;
-        let rectHeight = 500;
+        let rectWidth = 600;
+        let rectHeight = 600;
         let offsetY = 20;
 
         // dessiner les rectangles
@@ -116,7 +124,7 @@ function MainSketch(p) {
             let y = window.innerHeight - rectHeight - offsetY;
             // p.rect(x, y, rectWidth, rectHeight);
 
-            p.rect(x, y, rectWidth, rectHeight);
+            p.rect(x, y, rectWidth, rectHeight, 20);
             rectWidth -= 100;
             rectHeight -= 100;
             offsetY += 20;
