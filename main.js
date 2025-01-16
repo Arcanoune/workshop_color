@@ -68,9 +68,9 @@ function MainSketch(p) {
         const container = document.getElementById("range-container");
 
         // Ajouter un titre global
-        const title = document.createElement("h2");
-        title.textContent = "Adjust the sliders :";
-        container.appendChild(title);
+        // const title = document.createElement("h2");
+        // title.textContent = "Adjust the sliders :";
+        // container.appendChild(title);
 
         for (let i = 0; i < concepts.length; i++) {
             const div = document.createElement("div");
@@ -98,7 +98,7 @@ function MainSketch(p) {
 
 
     function setupExportButton() {
-        const container = document.getElementById("range-container");
+        const container = document.getElementById("button-container");
         let button = p.createButton('DOWNLOAD');
         button.mousePressed(exportCSV);
         container.appendChild(button.elt);
