@@ -83,17 +83,6 @@ section {
     position: relative;
 }
 
-#app select {
-    display: block;
-    /* Visible uniquement dans #app */
-}
-
-#home select {
-    display: none;
-    /* Caché dans #home */
-}
-
-
 #canvas-container {
     position: relative;
     flex: 1;
@@ -152,17 +141,6 @@ input {
     width: 80%;
     /* Ajustement de la taille */
     width: 200px;
-}
-
-
-select {
-    width: 100px;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    cursor: pointer;
-    z-index: 10;
 }
 
 

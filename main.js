@@ -10,7 +10,6 @@ let concepts = [
     { left: "harsh", right: "harmonious" }
 ];
 let colors = [];
-// let mySelect;
 
 
 
@@ -20,8 +19,7 @@ async function fetchRandomPalette() {
     const randomColor = Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
     const modes = ['analogic-complement', 'triad', 'quad'];
     const randomMode = modes[Math.floor(Math.random() * modes.length)];
-    // const length = mySelect.selected();
-    // console.log(length);
+
 
     const response = await fetch(`https://www.thecolorapi.com/scheme?hex=${randomColor}&mode=${randomMode}&count=4`);
     const data = await response.json();
@@ -37,23 +35,9 @@ function MainSketch(p) {
         p.background(255);
         p.textSize(14);
 
-        // // Initialisation du select
-        // mySelect = p.createSelect();
-        // mySelect.position(p.width / 2 - 50, 30); // Centré horizontalement et en haut
-        // mySelect.option('4');
-        // mySelect.option('5');
-        // mySelect.option('6');
-        // mySelect.selected('4');
-
         fetchRandomPalette(4).then(fetchedColors => {
             colors = fetchedColors;
         });
-
-        // mySelect.changed(() => {
-        //     fetchRandomPalette().then(fetchedColors => {
-        //         colors = fetchedColors;
-        //     });
-        // });
 
         // afficher bouton d'enregistrement
         setupExportButton();
