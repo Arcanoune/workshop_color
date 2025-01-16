@@ -40,7 +40,6 @@ function MainSketch(p) {
     p.setup = function setup() {
         // createCanvas(window.innerWidth / 2, window.innerHeight);
         p.createCanvas(window.innerWidth / 2, window.innerHeight * 0.95, document.getElementById("main-canvas"));
-        p.background(255);
         p.textSize(14);
 
 
