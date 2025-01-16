@@ -10,6 +10,7 @@ let concepts = [
     { left: "harsh", right: "harmonious" }
 ];
 let colors = [];
+// let mySelect;
 
 
 
@@ -19,7 +20,8 @@ async function fetchRandomPalette() {
     const randomColor = Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
     const modes = ['analogic-complement', 'triad', 'quad'];
     const randomMode = modes[Math.floor(Math.random() * modes.length)];
-
+    // const length = mySelect.selected();
+    // console.log(length);
 
     const response = await fetch(`https://www.thecolorapi.com/scheme?hex=${randomColor}&mode=${randomMode}&count=4`);
     const data = await response.json();
@@ -31,18 +33,33 @@ function MainSketch(p) {
 
     p.setup = function setup() {
         // createCanvas(window.innerWidth / 2, window.innerHeight);
-        p.createCanvas(window.innerWidth / 2, window.innerHeight, document.getElementById("main-canvas"));
+        p.createCanvas(window.innerWidth / 2, window.innerHeight*0.95, document.getElementById("main-canvas"));
         p.background(255);
         p.textSize(14);
+
+        // // Initialisation du select
+        // mySelect = p.createSelect();
+        // mySelect.position(p.width / 2 - 50, 30); // Centré horizontalement et en haut
+        // mySelect.option('4');
+        // mySelect.option('5');
+        // mySelect.option('6');
+        // mySelect.selected('4');
 
         fetchRandomPalette(4).then(fetchedColors => {
             colors = fetchedColors;
         });
 
-        // afficher bouton d'enregistrement
-        setupExportButton();
+        // mySelect.changed(() => {
+        //     fetchRandomPalette().then(fetchedColors => {
+        //         colors = fetchedColors;
+        //     });
+        // });
+
+        
         // Création des sliders
         createSliders();
+        // afficher bouton d'enregistrement
+        setupExportButton();
     }
 
 
@@ -52,7 +69,7 @@ function MainSketch(p) {
 
         // Ajouter un titre global
         const title = document.createElement("h2");
-        title.textContent = "Ajustez les curseurs :";
+        title.textContent = "Adjust the sliders :";
         container.appendChild(title);
 
         for (let i = 0; i < concepts.length; i++) {
@@ -82,7 +99,7 @@ function MainSketch(p) {
 
     function setupExportButton() {
         const container = document.getElementById("range-container");
-        let button = p.createButton('Enregistrer');
+        let button = p.createButton('DOWNLOAD');
         button.mousePressed(exportCSV);
         container.appendChild(button.elt);
     }
@@ -105,7 +122,7 @@ function MainSketch(p) {
             p.noStroke();
 
             let x = (p.width - rectWidth) / 4;
-            let y = window.innerHeight - rectHeight - offsetY;
+            let y = window.innerHeight - 60 - rectHeight - offsetY;
             // p.rect(x, y, rectWidth, rectHeight);
 
             p.rect(x, y, rectWidth, rectHeight, 20);
@@ -134,3 +151,10 @@ function exportCSV() {
     saveStrings([csv], "concept_values.csv");
 }
 
+
+
+
+// congé
+// layout aéré
+// cycle de 10
+// footer avec lien de l'api
