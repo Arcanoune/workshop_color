@@ -23,7 +23,7 @@ async function fetchRandomPalette() {
         return data.colors.map(color => color.hex.value);
     } catch (error) {
         console.error("Erreur lors de la récupération de la palette:", error);
-        return ['#000000', '#000000', '#000000', '#000000'];  
+        return ['#000000', '#000000', '#000000', '#000000'];
     }
 }
 
@@ -37,7 +37,7 @@ function MainSketch(p) {
 
         fetchRandomPalette().then(fetchedColors => {
             colors = fetchedColors;
-            palettes.push(colors); 
+            palettes.push(colors);
         });
 
         createSliders();
@@ -51,7 +51,7 @@ function MainSketch(p) {
 
         if (!container) {
             console.error("L'élément 'range-container' est introuvable !");
-            return; 
+            return;
         }
 
         for (let i = 0; i < concepts.length; i++) {
@@ -78,18 +78,6 @@ function MainSketch(p) {
     }
 
 
-
-    // function setupExportButton() {
-    //     const container = document.getElementById("button-container");
-    //     let button = p.createButton('DOWNLOAD');
-    //     button.mousePressed(exportCSV);
-    //     container.appendChild(button.elt);
-    // }
-
-
-
-
-
     p.draw = function draw() {
         let sets = colors.length;
         let rectWidth = 600;
@@ -113,10 +101,10 @@ function MainSketch(p) {
 
 new p5(MainSketch);
 
-let sliderValues = []; 
-let conceptSliderValues = []; 
-let palettes = []; 
-let currentPaletteIndex = 0; 
+let sliderValues = [];
+let conceptSliderValues = [];
+let palettes = [];
+let currentPaletteIndex = 0;
 
 function setupPaletteButton() {
     const container = document.getElementById("button-container");
@@ -146,40 +134,38 @@ function setupPaletteButton() {
                 button.textContent = "DOWNLOAD";
             }
         } else {
-            exportCSV(); 
+            exportCSV();
         }
     });
 
 }
 
+
+
 function exportCSV() {
-    let csv = "";
+    let csv = "Palettes,";
+
+    concepts.forEach(concept => {
+        csv += `${concept.left},${concept.right},`;
+    });
+
+    csv += "Couleurs\n"; 
 
     palettes.forEach((palette, paletteIndex) => {
-        csv += `Palette ${paletteIndex + 1}\n`;
+        csv += `Palette ${paletteIndex + 1},`;
 
         conceptSliderValues[paletteIndex].forEach((value, conceptIndex) => {
             let leftValue = value <= 5 ? (5 - value) / 5 * 100 : 0;
             let rightValue = value >= 5 ? (value - 5) / 5 * 100 : 0;
 
-            if (leftValue > 0) {
-                rightValue = 100 - leftValue;
-            }
+            if (leftValue > 0) rightValue = 100 - leftValue;
+            if (rightValue > 0) leftValue = 100 - rightValue;
 
-            if (rightValue > 0) {
-                leftValue = 100 - rightValue;
-            }
-
-            csv += `${concepts[conceptIndex].left},${leftValue.toFixed(0)}\n`;
-            csv += `${concepts[conceptIndex].right},${rightValue.toFixed(0)}\n`;
+            csv += `${leftValue.toFixed(0)},${rightValue.toFixed(0)},`;
         });
 
-        palette.forEach((hex, colorIndex) => {
-            const hsl = hexToHSL(hex);
-            csv += `Couleur ${colorIndex + 1},${hsl}\n`;
-        });
-
-        csv += "\n"; 
+        const combinedColors = palette.map(hex => hexToHSL(hex).replace(/ /g, "")).join(",");
+        csv += `"${combinedColors}"\n`; 
     });
 
     const blob = new Blob([csv], { type: 'text/csv' });
@@ -192,12 +178,13 @@ function exportCSV() {
 }
 
 
+
 function saveSliderValues() {
     sliderValues = [];
     for (let i = 0; i < concepts.length; i++) {
         const slider = document.getElementById(`range-${i}`);
         if (slider) {
-            sliderValues[i] = parseInt(slider.value, 10) || 5; 
+            sliderValues[i] = parseInt(slider.value, 10) || 5;
         }
     }
 }
