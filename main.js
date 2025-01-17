@@ -127,7 +127,7 @@ function setupPaletteButton() {
         saveSliderValues();
         conceptSliderValues[currentPaletteIndex] = [...sliderValues];
 
-        if (currentPaletteIndex < 10) {
+        if (currentPaletteIndex < 9) {
             currentPaletteIndex++;
             counter.textContent = `${currentPaletteIndex + 1} / 10`;
 
@@ -137,7 +137,7 @@ function setupPaletteButton() {
 
             resetSliders();
 
-            if (currentPaletteIndex === 10) {
+            if (currentPaletteIndex === 9) {
                 button.textContent = "DOWNLOAD";
             }
         } else {
