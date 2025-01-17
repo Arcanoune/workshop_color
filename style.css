@@ -121,12 +121,6 @@ input {
 }
 
 
-/* #left-side {
-    display: flex;
-    flex-direction: column;
-    
-} */
-
 #canvas-container {
     flex: 2; /* Canvas prend plus d'espace */
     position: relative;
@@ -136,22 +130,6 @@ input {
 }
 
 #left-side {
-    flex: 1; /* Les sliders prennent moins d'espace */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-}
-
-#corps_page {
-    display: flex;
-    flex-direction: row;
-    gap: 20px; /* Espace entre le canvas et les sliders */
-    width: 100%;
-    height: calc(100% - 20px); /* Ajuste pour laisser de la place au footer */
-    padding: 10px;
-    box-sizing: border-box;
-
     flex: 1;
     display: flex;
     flex-direction: column;
