@@ -85,10 +85,6 @@ section {
     justify-content: flex-start;
 }
 
-#corps_page {
-    display: flex;
-    flex-direction: row;
-}
 
 #footer {
     display: flex;
@@ -96,13 +92,14 @@ section {
     justify-content: space-between;
     height: 20px;
     background-color:#ffffff ;
+    gap: 500px;
 }
 
 #footer p {
     font-family: Verdana;
 }
 
-
+/* 
 #canvas-container {
     position: relative;
     flex: 1;
@@ -110,7 +107,7 @@ section {
     justify-content: center;
     align-items: center;
     z-index: 1;
-}
+} */
 
 
 #main-canvas {
@@ -123,6 +120,38 @@ input {
 }
 
 
+/* #left-side {
+    display: flex;
+    flex-direction: column;
+    
+} */
+
+#canvas-container {
+    flex: 2; /* Canvas prend plus d'espace */
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#left-side {
+    flex: 1; /* Les sliders prennent moins d'espace */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#corps_page {
+    display: flex;
+    flex-direction: row;
+    gap: 20px; /* Espace entre le canvas et les sliders */
+    width: 100%;
+    height: calc(100% - 20px); /* Ajuste pour laisser de la place au footer */
+    padding: 10px;
+    box-sizing: border-box;
+}
+
 
 
 #range-container {
@@ -130,14 +159,13 @@ input {
     grid-template-columns: 1fr 1fr;
     background-color: white;
     width: 50%;
-    height: 100%;
+    height: 70%;
     gap: 40px;
     text-align: center;
     justify-content: center;
     align-items: center;
-    padding-right: 30px;
+    padding: 0 30px;
     margin-top: 2%;
-
 }
 
 .range {

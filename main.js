@@ -1,4 +1,3 @@
-// Liste des paires de concepts
 let concepts = [
     { left: "passive", right: "active" },
     { left: "dull", right: "bright" },
@@ -10,14 +9,9 @@ let concepts = [
     { left: "harsh", right: "harmonious" }
 ];
 let colors = [];
-let palettes = [];  // Stocke les palettes de couleurs
-let currentPaletteIndex = 0;  // Suivi de l'index de la palette actuelle
 
 
 
-
-
-// couleurs random
 async function fetchRandomPalette() {
     try {
         const randomColor = Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
@@ -29,7 +23,7 @@ async function fetchRandomPalette() {
         return data.colors.map(color => color.hex.value);
     } catch (error) {
         console.error("Erreur lors de la récupération de la palette:", error);
-        return ['#000000', '#000000', '#000000', '#000000'];  // Couleurs par défaut
+        return ['#000000', '#000000', '#000000', '#000000'];  
     }
 }
 
@@ -38,24 +32,17 @@ async function fetchRandomPalette() {
 function MainSketch(p) {
 
     p.setup = function setup() {
-        // createCanvas(window.innerWidth / 2, window.innerHeight);
         p.createCanvas(window.innerWidth / 2, window.innerHeight * 0.95, document.getElementById("main-canvas"));
         p.background(255);
         p.textSize(14);
 
-
         fetchRandomPalette().then(fetchedColors => {
             colors = fetchedColors;
-            palettes.push(colors); // Ajouter la première palette
+            palettes.push(colors); 
         });
 
-
-
-
-        // Création des sliders
         createSliders();
-        // afficher bouton d'enregistrement
-        setupExportButton();
+        setupPaletteButton();
     }
 
 
@@ -63,16 +50,10 @@ function MainSketch(p) {
     function createSliders() {
         const container = document.getElementById("range-container");
 
-        // Vérifier si l'élément existe avant de l'utiliser
         if (!container) {
             console.error("L'élément 'range-container' est introuvable !");
-            return;  // Ne pas continuer si l'élément est introuvable
+            return; 
         }
-
-        // Ajouter un titre global
-        const title = document.createElement("h2");
-        title.textContent = "Adjust the sliders :";
-        container.appendChild(title);
 
         for (let i = 0; i < concepts.length; i++) {
             const div = document.createElement("div");
@@ -98,28 +79,18 @@ function MainSketch(p) {
     }
 
 
-
-
-
-
-
-
     p.draw = function draw() {
-        // Dessin des rectangles et autres éléments
         let sets = colors.length;
         let rectWidth = 600;
         let rectHeight = 600;
         let offsetY = 20;
 
-        // dessiner les rectangles
         for (let i = 0; i < sets; i++) {
             p.fill(colors[i]);
-
             p.noStroke();
 
             let x = (p.width - rectWidth) / 4;
             let y = window.innerHeight - 60 - rectHeight - offsetY;
-            // p.rect(x, y, rectWidth, rectHeight);
 
             p.rect(x, y, rectWidth, rectHeight, 5);
             rectWidth -= 100;
@@ -131,40 +102,78 @@ function MainSketch(p) {
 
 new p5(MainSketch);
 
+let sliderValues = []; 
+let conceptSliderValues = []; 
+let palettes = []; 
+let currentPaletteIndex = 0; 
 
+function setupPaletteButton() {
+    const container = document.getElementById("button-container");
+    if (!container) {
+        console.error("L'élément 'button-container' est introuvable !");
+        return;
+    }
 
+    let button = document.createElement('button');
+    button.textContent = 'NEXT';
+    button.id = 'palette-button';
+    container.appendChild(button);
 
+    button.addEventListener('click', async () => {
+        saveSliderValues();
+        conceptSliderValues[currentPaletteIndex] = [...sliderValues];
 
+        if (currentPaletteIndex < 9) {
+            currentPaletteIndex++;
+            const fetchedColors = await fetchRandomPalette();
+            colors = fetchedColors;
+            palettes.push(colors);
+
+            resetSliders();
+
+            if (currentPaletteIndex === 9) {
+                button.textContent = "DOWNLOAD";
+            }
+        } else {
+            exportCSV(); 
+        }
+    });
+
+}
 
 function exportCSV() {
-    let csv = "Concept,Value\n";
+    let csv = "";
 
-    concepts.forEach((concept, i) => {
-        const slider = document.getElementById(`range-${i}`);
-        const value = parseInt(slider.value, 10); // Valeur du slider
+    palettes.forEach((palette, paletteIndex) => {
+        csv += `Palette ${paletteIndex + 1}\n`;
 
-        // Calcul des valeurs pour les mots de gauche et de droite
-        const leftValue = value <= 5 ? (5 - value) / 5 * 10 : 0; // Remis sur 10
-        const rightValue = value >= 5 ? (value - 5) / 5 * 10 : 0; // Remis sur 10
+        conceptSliderValues[paletteIndex].forEach((value, conceptIndex) => {
+            let leftValue = value <= 5 ? (5 - value) / 5 * 100 : 0;
+            let rightValue = value >= 5 ? (value - 5) / 5 * 100 : 0;
 
-        // Ajout au CSV
-        csv += `${concept.left},${leftValue.toFixed(2)}\n`;
-        csv += `${concept.right},${rightValue.toFixed(2)}\n`;
-    });
+            // Si la valeur de leftValue > 0, alors ajuster rightValue
+            if (leftValue > 0) {
+                rightValue = 100 - leftValue;
+            }
 
+            // Si la valeur de rightValue > 0, alors ajuster leftValue
+            if (rightValue > 0) {
+                leftValue = 100 - rightValue;
+            }
 
-    palettes.forEach((palette, index) => {
+            csv += `${concepts[conceptIndex].left},${leftValue.toFixed(0)}\n`;
+            csv += `${concepts[conceptIndex].right},${rightValue.toFixed(0)}\n`;
+        });
+
         palette.forEach((hex, colorIndex) => {
             const hsl = hexToHSL(hex);
-            const [h, s, l] = hsl.slice(4, -1).split(',').map(val => val.trim());
-            csv += `couleur${index * 4 + colorIndex + 1}, ${h}, ${s}, ${l}\n`;
+            csv += `Couleur ${colorIndex + 1},${hsl}\n`;
         });
+
+        csv += "\n"; 
     });
 
-
-
-
-    // Télécharger le fichier CSV
+    // Création du fichier CSV et téléchargement
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -174,9 +183,33 @@ function exportCSV() {
     URL.revokeObjectURL(url);
 }
 
-// Fonction de conversion HEX en HSL
+
+function saveSliderValues() {
+    sliderValues = [];
+    for (let i = 0; i < concepts.length; i++) {
+        const slider = document.getElementById(`range-${i}`);
+        if (slider) {
+            sliderValues[i] = parseInt(slider.value, 10) || 5; 
+        }
+    }
+}
+
+function resetSliders() {
+    for (let i = 0; i < concepts.length; i++) {
+        const slider = document.getElementById(`range-${i}`);
+        if (slider) {
+            slider.value = 5;
+        }
+    }
+}
+
+document.querySelectorAll('input[type="range"]').forEach((slider, i) => {
+    slider.addEventListener('input', () => saveSliderValues());
+});
+saveSliderValues();
+
+
 function hexToHSL(H) {
-    // Convert HEX to RGB first
     let r = 0, g = 0, b = 0;
     if (H.length === 7) {
         r = parseInt(H.slice(1, 3), 16) / 255;
@@ -184,7 +217,6 @@ function hexToHSL(H) {
         b = parseInt(H.slice(5, 7), 16) / 255;
     }
 
-    // Find min and max values to get lightness
     const max = Math.max(r, g, b), min = Math.min(r, g, b);
     let h = 0, s = 0, l = (max + min) / 2;
 
@@ -205,8 +237,3 @@ function hexToHSL(H) {
 
     return `hsl(${h}, ${s}%, ${l}%)`;
 }
-
-
-
-// layout aéré
-// cycle de 10
