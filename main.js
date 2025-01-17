@@ -69,7 +69,7 @@ function MainSketch(p) {
 
             const label = document.createElement("label");
             label.htmlFor = `range-${i}`;
-            label.innerHTML = `<span>${concepts[i].left}</span><span>${concepts[i].right}</span>`; // Mots de chaque côté
+            label.innerHTML = `<span>${concepts[i].left}</span><span>${concepts[i].right}</span>`; 
 
             div.appendChild(label);
             div.appendChild(input);
@@ -118,26 +118,32 @@ function setupPaletteButton() {
     button.id = 'palette-button';
     container.appendChild(button);
 
+    let counter = document.createElement('span');
+    counter.id = 'palette-counter';
+    counter.textContent = `1 / 10`;
+    container.appendChild(counter);
+
     button.addEventListener('click', async () => {
         saveSliderValues();
         conceptSliderValues[currentPaletteIndex] = [...sliderValues];
 
-        if (currentPaletteIndex < 9) {
+        if (currentPaletteIndex < 10) {
             currentPaletteIndex++;
+            counter.textContent = `${currentPaletteIndex + 1} / 10`;
+
             const fetchedColors = await fetchRandomPalette();
             colors = fetchedColors;
             palettes.push(colors);
 
             resetSliders();
 
-            if (currentPaletteIndex === 9) {
+            if (currentPaletteIndex === 10) {
                 button.textContent = "DOWNLOAD";
             }
         } else {
             exportCSV();
         }
     });
-
 }
 
 
@@ -149,7 +155,7 @@ function exportCSV() {
         csv += `${concept.left},${concept.right},`;
     });
 
-    csv += "Couleurs\n"; 
+    csv += "Couleurs\n";
 
     palettes.forEach((palette, paletteIndex) => {
         csv += `Palette ${paletteIndex + 1},`;
@@ -165,7 +171,7 @@ function exportCSV() {
         });
 
         const combinedColors = palette.map(hex => hexToHSL(hex).replace(/ /g, "")).join(",");
-        csv += `"${combinedColors}"\n`; 
+        csv += `"${combinedColors}"\n`;
     });
 
     const blob = new Blob([csv], { type: 'text/csv' });
@@ -230,5 +236,5 @@ function hexToHSL(H) {
     s = Math.round(s * 100);
     l = Math.round(l * 100);
 
-    return `hsl(${h}, ${s}%, ${l}%)`;
+    return `hsl(${h}, ${s}, ${l})`;
 }

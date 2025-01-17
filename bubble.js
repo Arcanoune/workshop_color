@@ -1,4 +1,4 @@
-let bubbles = []; // Tableau pour stocker les bulles
+let bubbles = []; 
 
 function BubbleSketch(p) {
     p.setup = function setup() {
@@ -11,11 +11,11 @@ function BubbleSketch(p) {
                 for (let i = 0; i < 50; i++) {
                     let x = p.random(p.width);
                     let y = p.random(p.height);
-                    let radius = 250; // Taille des bulles
+                    let radius = 250; 
                     let color = p.random(colors);
 
-                    let angle = p.random(p.TWO_PI); // Angle de direction aléatoire
-                    let speed = 1; // Vitesse constante
+                    let angle = p.random(p.TWO_PI); 
+                    let speed = 1; 
                     let speedX = speed * Math.cos(angle);
                     let speedY = speed * Math.sin(angle);
 
@@ -48,15 +48,14 @@ function BubbleSketch(p) {
             this.x += this.speedX;
             this.y += this.speedY;
 
-            // Rebondissement sur les bords
             if (this.x - this.radius < 0 || this.x + this.radius > p.width) this.speedX *= -1;
             if (this.y - this.radius < 0 || this.y + this.radius > p.height) this.speedY *= -1;
         }
 
         display() {
             p.fill(this.color || "#FFFFFF");
-            p.drawingContext.shadowBlur = 20; // Intensité du flou
-            p.drawingContext.shadowColor = p.color(this.color || "#FFFFFF"); // Couleur de l'ombre
+            p.drawingContext.shadowBlur = 20; 
+            p.drawingContext.shadowColor = p.color(this.color || "#FFFFFF"); 
             p.ellipse(this.x, this.y, this.radius * 2);
         }
     }

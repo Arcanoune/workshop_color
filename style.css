@@ -19,15 +19,12 @@ section {
     padding: 0;
 }
 
-
-
 #main {
     scroll-snap-type: y mandatory;
     overflow-y: scroll;
     height: 100%;
     overflow-x: hidden;
 }
-
 
 #home {
     color: white;
@@ -37,8 +34,6 @@ section {
     width: 100%;
     height: 100%;
 }
-
-
 
 #bubble-container {
     position: absolute;
@@ -85,7 +80,6 @@ section {
     justify-content: flex-start;
 }
 
-
 #footer {
     display: flex;
     flex-direction: row;
@@ -98,31 +92,18 @@ section {
     font-family: Verdana;
 }
 
-/* 
-#canvas-container {
-    position: relative;
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1;
-} */
-
-
 #main-canvas {
     z-index: 0;
     margin-left: 40px;
     margin-right: -20px;
 }
 
-
 input {
     accent-color: black;
 }
 
-
 #canvas-container {
-    flex: 2; /* Canvas prend plus d'espace */
+    flex: 2; 
     position: relative;
     display: flex;
     justify-content: center;
@@ -141,7 +122,6 @@ input {
     margin-left: -20px;
 }
 
-
 #corps_page {
     display: flex;
     flex-direction: row;
@@ -151,25 +131,6 @@ input {
     padding: 0;
     box-sizing: border-box;
 }
-    /* background-image: url('fond-image.png');
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    overflow: hidden;
-}
-
-#corps_page::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    backdrop-filter: blur(10px);
-    z-index: -1;
-} */
-
-
 
 #range-container {
     display: grid;
@@ -193,7 +154,6 @@ input {
 .range label {
     display: flex;
     justify-content: space-between;
-    /* Mots de chaque côté du curseur */
     width: 100%;
     font-family: Verdana ;
     font-size: 16px;
@@ -202,17 +162,13 @@ input {
 
 .range input {
     margin: 10px 0;
-    /* Espace autour du curseur */
-    /* Ajustement de la taille */
     width: 280px;
 }
-
 
 h2 {
     font-size: 15px;
     font-family:Arial;
 }
-
 
 button {
     width: 150px;
@@ -225,8 +181,13 @@ button {
     font-family: 'verdana';
     font-size: 16px;
     transition: background-color 0.2s, color 0.2s;
-    margin-bottom: 25%;
-    margin-left: 25%;
+    margin-right: 2rem;
+}
+
+#button-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
 }
 
 button:hover {
@@ -235,11 +196,14 @@ button:hover {
     color: white;
 }
 
+#palette-counter {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
 
 input[type=range] {
     -webkit-appearance: none;
-    /* width: 100%; */
-    /* margin: 18.5px 0; */
 }
 
 input[type=range]:focus {
@@ -273,38 +237,28 @@ input[type=range]:active::-webkit-slider-runnable-track {
     background: white;
 }
 
-
-
-/* Conteneur des icônes */
 .icon-container {
     margin-top: 10px;
 }
 
-/* Icône du bas (plus grande) */
 .icon-container {
     transform: rotate(90deg);
-    /* Rotation de l'icône vers le bas */
     animation: bounce 1.5s ease-in-out infinite;
     font-size: 24px;
-    /* Taille plus grande */
 }
 
-/* Animation de descente/remontée */
 @keyframes bounce {
 
     0%,
     100% {
         transform: translateY(0) rotate(90deg);
-        /* Position initiale */
     }
 
     40% {
         transform: translateY(10px) rotate(90deg);
-        /* Descente */
     }
 
     60% {
         transform: translateY(0) rotate(90deg);
-        /* Remontée */
     }
 }
