@@ -33,7 +33,6 @@ function MainSketch(p) {
 
     p.setup = function setup() {
         p.createCanvas(window.innerWidth / 2, window.innerHeight * 0.95, document.getElementById("main-canvas"));
-        p.background(255);
         p.textSize(14);
 
         fetchRandomPalette().then(fetchedColors => {
@@ -77,6 +76,18 @@ function MainSketch(p) {
             container.appendChild(div);
         }
     }
+
+
+
+    // function setupExportButton() {
+    //     const container = document.getElementById("button-container");
+    //     let button = p.createButton('DOWNLOAD');
+    //     button.mousePressed(exportCSV);
+    //     container.appendChild(button.elt);
+    // }
+
+
+
 
 
     p.draw = function draw() {
@@ -151,12 +162,10 @@ function exportCSV() {
             let leftValue = value <= 5 ? (5 - value) / 5 * 100 : 0;
             let rightValue = value >= 5 ? (value - 5) / 5 * 100 : 0;
 
-            // Si la valeur de leftValue > 0, alors ajuster rightValue
             if (leftValue > 0) {
                 rightValue = 100 - leftValue;
             }
 
-            // Si la valeur de rightValue > 0, alors ajuster leftValue
             if (rightValue > 0) {
                 leftValue = 100 - rightValue;
             }
@@ -173,7 +182,6 @@ function exportCSV() {
         csv += "\n"; 
     });
 
-    // Création du fichier CSV et téléchargement
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
